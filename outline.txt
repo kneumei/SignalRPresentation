@@ -1,0 +1,39 @@
+Outline:
+ - What is SignalR?
+ 	- .Net library for building real-time web applications
+ - Ball Demo
+ - Brief History Lesson
+ 	- Web 1.0 -> request-response
+ 	- Web 2.0 -> request-response, but more dynamic
+ - Common Techniques for real-time web apps
+ 	- Polling
+ 	- Long Polling
+ 	- HTML5 Web Sockets
+ 	- SignalR falls back gracefully depending on capabilities
+ - SignalR Architecture
+ 	- Two APIs: Connection and Hubs
+ - Chat Demo
+  - How to install
+  		-Requirements-> .net <4.5 requires 1.1.3. 
+  	- Nuget: SignalR. Installs client and asp.net server components.  Other clients available
+  - 1st pass: just print messages
+  	- Server 
+  	- Client
+  	- point out hubs
+  - 2nd Pass: Add joined notification
+  	- Server
+  	- Client
+ - Ball Demo
+ 	- Point out data binding
+
+- Gotchas
+	- Have to have one method registered on client before calling start
+	- sometimes /signal/hubs is not easy to include, depending on build process
+
+ - Advanced Techniques
+ 	- Dependency Injection
+ 	- Accessing clients from outside Hub
+ 	- Hub returing Task during long running task.
+ 	- Scaling
+ 	- Logging/Debugging
+ 	- Cross Domain calls

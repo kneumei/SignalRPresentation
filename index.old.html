@@ -15,10 +15,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="css/reveal.min.css">
-		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
+
 		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
 		<script>
 			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
@@ -54,104 +55,6 @@
 					<h3>Join In the Action! http://kyle-laptop:8001/Ball</h2>
 				</section>
 
-				<section>
-					<h2>What is SignalR?</h2>
-					<p>Library for .Net that simplifies development of real-time web apps.</p>
-					
-					<aside class="notes">
-						<ul>
-							<li>Real-time = server side push</ul>
-						</ul>
-					</aside>
-				</section>
-
-				<section>
-					<h2>Popular Use Cases</h2>
-					<ul>
-						<li>Dashboards</li>
-						<li>Monitoring Applications</li>
-						<li>Collaborative Editing</li>
-						<li>Job Progress</li>
-						<li>Chat/Status updates</li>
-						<li>High-Frequency Update Apps</li>
-					</ul>
-				</section>
-				
-				<section>
-					<h2>Architecture</h2>
-					<img src="signalr_architecture.png" alt="Architecture">
-				</section>
-
-				<section>
-					<h2>A tale of Two APIs</h2>
-					<ul>
-						<li>Persistent Connections</li>
-						<li>Hubs</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Persistent Connections</h2>
-					<p>Low Level<p>
-					<p>Think of it as a connection between your server and a page</p>
-				</section>
-
-				<section>
-					<h2>PersistentConnection</h2>
-					<pre style="width:1000px"> <code data-trim >
-public class ChatConnection : PersistentConnection 
-    {
-        private static readonly Dictionary&lt;string, string&gt; _clients = 
-        		new Dictionary&lt;string, string&gt;();
-
-        protected override Task OnConnected(IRequest request, string connectionId)
-        {
-           _clients.Add(connectionId, string.Empty);
-           var everyoneExceptMe =  _clients.Keys.Where(conn =&gt; conn != connectionId).ToList&lt;string&gt;();
-           return Connection.Send(everyoneExceptMe, new ChatModel(null, null, "UserJoined"););
-        }
-
-        protected override Task OnReceived(IRequest request, string connectionId, string data)
-        {
-            ChatModel chatData = JsonConvert.DeserializeObject&lt;ChatModel&gt;(data);
-            chatData.ChatModelType = "Message";
-            _clients[connectionId] = chatData.Name;
-            return Connection.Broadcast(chatData);
-        }
-
-        protected override Task OnDisconnected(IRequest request, string connectionId)
-        {
-            string name = _clients[connectionId];
-            _clients.Remove(connectionId);
-            return Connection.Broadcast( new ChatModel(name, null, "UserLeft"));
-        }
-    }
-					</code></pre>
-					</section>
-
-								<section>
-					<h2>PersistentConnection Model</h2>
-					<pre style="width:1000px"> <code data-trim >
-	public class ChatModel
-    {
-        public string Name { get; set; }
-        public string Message { get; set; }
-        public string ChatModelType { get; set; }
-
-        public ChatModel()
-        {
-        }
-
-        public ChatModel(string name, string message, string chatModelType=null)
-        {
-            Name = name;
-            Message = message;
-            ChatModelType = chatModelType ?? "Message";
-        }
-    }
-					</code></pre>
-					</section>
-
 			
 			</div>
 
@@ -163,7 +66,7 @@ public class ChatConnection : PersistentConnection
 		<script src="http://localhost:8001/Scripts/kinetic-v4.4.3.js"></script>
 		<script src="http://localhost:8001/Scripts/jquery.signalR-2.0.1.js"></script>
 		<script src="http://localhost:8001/signalr/hubs"></script>
-		<script src="http://localhost:8001/Scripts/ball.js"></script>
+		<script src="http://localhost:8001/Scripts/shapes.js"></script>
 
 		<script>
 
