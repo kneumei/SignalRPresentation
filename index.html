@@ -14,7 +14,7 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/night.css" id="theme">
 
 		<!-- For syntax highlighting -->
@@ -22,11 +22,6 @@
 		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
 		<script>
 			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
-		</script>
-
-		<script type="text/javascript">
-			var signalRDomain = "http://localhost:8001";
-			var signalRDemoUrl = signalRDomain+"/signalR";
 		</script>
 
 		<!--[if lt IE 9]>
@@ -49,14 +44,8 @@
 				</section>
 
 				<section>
-					<h2>Interactive Demo!</h2>
-					<div id="ball-demo-container" style="border:5px solid black; width:600px; height:600px; margin:auto"></div>
-					<h3>Join In the Action! http://kyle-laptop:8001/Ball</h2>
-				</section>
-
-				<section>
 					<h2>What is SignalR?</h2>
-					<p>Library for .Net that simplifies development of real-time web apps.</p>
+					<p>Library for .Net that simplifies development of real-time web. </p>
 					
 					<aside class="notes">
 						<ul>
@@ -66,92 +55,200 @@
 				</section>
 
 				<section>
-					<h2>Popular Use Cases</h2>
-					<ul>
-						<li>Dashboards</li>
-						<li>Monitoring Applications</li>
-						<li>Collaborative Editing</li>
-						<li>Job Progress</li>
-						<li>Chat/Status updates</li>
-						<li>High-Frequency Update Apps</li>
-					</ul>
+					<h2>Interactive Demo!</h2>
+				</section>
+
+				<section>
+					<h2>Brief History Lesson</h2>
+				</section>
+
+				<section>
+					<img src="images/tardis.jpg"/>
+				</section>
+
+				<section >
+					<h1>1997</h1>
+					<aside class="notes">
+						It's 1997. You just got a 14K modem installed on your Packard Bell pentium 133 Mhz. You installed AOL from a free CD you found at Comp USA. You fire up Netscape and type in http://yahoo.com 
+					</aside>
+				</section>
+
+				<section >
+					<img  src="images/packerdbell.jpeg" style="width:600px"/>
+				</section>
+
+				<section >
+					<img src="images/aol-logo.jpg" style="width:600px"/>
+				</section>
+
+				<section >
+					<img src="images/Yahoo_Netscape.gif" style="width:800px"/>
 				</section>
 				
-				<section>
-					<h2>Architecture</h2>
-					<img src="signalr_architecture.png" alt="Architecture">
+				<section >
+					<img src="images/back-to-future.jpg" style="width:800px"/>
 				</section>
 
 				<section>
-					<h2>A tale of Two APIs</h2>
+					<h1>2005</h1>
+				</section>
+
+				<section>
+					<img src="images/iMac-G4.jpg"/>
+				</section>
+
+				<section>
+					<img src="images/facebook.jpg"/>
+				</section>
+
+				<section>
+					<img src="images/gmail.jpg"/>
+				</section>
+
+				<section>
+					<h2>Real-Time Techniques</h2>
 					<ul>
-						<li>Persistent Connections</li>
-						<li>Hubs</li>
+						<li class="fragment"><h3>Polling</h3></li>
+						<li class="fragment"><h3>Long Polling</h3></li>
+						<li class="fragment"><h3>HTML5 Web Sockets</h3></li>
 					</ul>
+					<h3 class="fragment">SignalR chooses best transport automatically</h3>
+					<aside class="notes">
+						<ul>
+							<li>Transport</li>
+							<ul>
+								<li>TCP = reliable transport on IP</li>
+								<li>Logical 'SignalR' connection layer</li>
+							</ul>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
-					<h2>Persistent Connections</h2>
-					<p>Low Level<p>
-					<p>Think of it as a connection between your server and a page</p>
+					<h2>Persistent Connections vs Hubs</h2>
+					<ul>
+						<li class="fragment"><h3>Persistent Connection</h3>
+							<ul><li><h4>Reliable Transport</h4></li></ul>
+						</li>
+						<li class="fragment"><h3>Hubs</h3>
+							<ul>
+							<li><h4>Data Binding</h4></li>
+							<li><h4>Fancy javascript proxies</h4></li>
+						</ul>
+						</li>
+					</ul>
+					<aside class="notes">
+						<ul>
+							<li>Persistent Connection -> Get a 'send' and 'receive'</li>
+							<li>Hubs -> magic java</li>
+							<li>Persistent Connection = Queue base prgramming</li>
+							<li>Hubs = RPC</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
-					<h2>PersistentConnection</h2>
-					<pre style="width:1000px"> <code data-trim >
-public class ChatConnection : PersistentConnection 
-    {
-        private static readonly Dictionary&lt;string, string&gt; _clients = 
-        		new Dictionary&lt;string, string&gt;();
+					<h2> Chat Demo</h2>
+					<div class="fragment">
+						<h3 >Prerequisites</h3>
+						<ul>
+							<li>SignalR 1.x => .Net 4 or above</li>
+							<li>SignalR 2.x => .Net 4.5</li>
+						</ul>
+					</div>
+					<div class="fragment" style="margin-top: 20px">
+						<h3>Installation</h3>
+						<pre ><code  data-trim style="font-size: 30px; margin-top: 20px;">
+						PM&gt; Install-Package Microsoft.AspNet.SignalR 
 
-        protected override Task OnConnected(IRequest request, string connectionId)
-        {
-           _clients.Add(connectionId, string.Empty);
-           var everyoneExceptMe =  _clients.Keys.Where(conn =&gt; conn != connectionId).ToList&lt;string&gt;();
-           return Connection.Send(everyoneExceptMe, new ChatModel(null, null, "UserJoined"););
-        }
+						</code></pre>
+					</div>
+				</section>
 
-        protected override Task OnReceived(IRequest request, string connectionId, string data)
-        {
-            ChatModel chatData = JsonConvert.DeserializeObject&lt;ChatModel&gt;(data);
-            chatData.ChatModelType = "Message";
-            _clients[connectionId] = chatData.Name;
-            return Connection.Broadcast(chatData);
-        }
+				<section>
+					<h2>Ball Demo</h2>
+				</section>
 
-        protected override Task OnDisconnected(IRequest request, string connectionId)
-        {
-            string name = _clients[connectionId];
-            _clients.Remove(connectionId);
-            return Connection.Broadcast( new ChatModel(name, null, "UserLeft"));
-        }
-    }
-					</code></pre>
-					</section>
+				<section>
+					<h2>Gotchas and Advanced Techniques!</h2>
+				</section>
 
-								<section>
-					<h2>PersistentConnection Model</h2>
-					<pre style="width:1000px"> <code data-trim >
-	public class ChatModel
-    {
-        public string Name { get; set; }
-        public string Message { get; set; }
-        public string ChatModelType { get; set; }
+				<section>
+					<h2>Need one listener on hub before starting!</h2>
+					<pre><code data-trim contenteditable style="font-size: 30px; margin-top: 60px; line-height:1.2">
+$(function(){
+  var myHub = $.connection.myHub;
+  $.connection.hub.start().done(function(){
 
-        public ChatModel()
-        {
-        }
+  });
+});
+					</pre></code>
+				</section>
 
-        public ChatModel(string name, string message, string chatModelType=null)
-        {
-            Name = name;
-            Message = message;
-            ChatModelType = chatModelType ?? "Message";
-        }
-    }
-					</code></pre>
-					</section>
+				<section>
+					<h2>Hubs cannot maintain state</h2>
 
+					<pre><code data-trim contenteditable style="font-size: 30px; margin-top: 60px; line-height:1.2">
+public class MyHub : Hub{
+
+  public void SendEdit(Edit edit){
+	
+  }
+	
+}
+
+					</pre></code>
+					<aside class="notes">
+						<pre>
+							- First show with static variable
+							- then show with dependency injection
+						</pre>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Sometimes it's easier to do without generated proxy</h2>
+
+					<pre><code data-trim contenteditable style="font-size: 30px; margin-top: 60px; line-height:1.2;">
+&lt;html&gt;
+  &lt;script src=&quot;~/Scripts/jquery-2.0.3.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;~/Scripts/jquery.signalR-2.0.1.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;~/signalr/hubs&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+     //var myHub = $.connection.MyHub;
+     //myHub.client.callMe = function(){..}
+     //myHub.server.invokeServer();
+  &lt;/script&gt;>
+&lt;/html&gt;
+
+
+					</pre></code>
+					<aside class="notes">
+<pre>
+var connection = $.hubConnection();
+var myHub = connection.createHubProxy('MyHub');
+myHub.on('callMe', function(){..});
+myHub.invoke('invokeServer', 'arg1');
+</pre>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Async requests</h2>
+				</section>
+
+
+				<section>
+					<h2>Invoking client method outside of Hub</h2>
+					<pre><code data-trim contenteditable style="font-size: 30px; margin-top: 60px; line-height:1.2;">
+public class MyController : Controller
+{
+  public ActionResult Submit(FormData data){
+
+  }
+}
+					</pre></code>
+				</section>
 			
 			</div>
 
@@ -159,12 +256,6 @@ public class ChatConnection : PersistentConnection
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.min.js"></script>
-		<script src="http://localhost:8001/Scripts/jquery-2.0.3.js"></script>
-		<script src="http://localhost:8001/Scripts/kinetic-v4.4.3.js"></script>
-		<script src="http://localhost:8001/Scripts/jquery.signalR-2.0.1.js"></script>
-		<script src="http://localhost:8001/signalr/hubs"></script>
-		<script src="http://localhost:8001/Scripts/ball.js"></script>
-
 		<script>
 
 			// Full list of configuration options available here:

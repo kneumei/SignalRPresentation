@@ -1,0 +1,13 @@
+Questions:
+- Why do you have to register an listener before calling start?
+- How does Web Socket get established?
+
+
+Web Sockets:
+- Html 5 spec
+- Allows full duplex over html5
+- Better use of resources as compared to pollimg
+	- Think about data in http request
+-Client sends request asking if server can do ws.
+
+Sign
