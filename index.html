@@ -234,20 +234,33 @@ myHub.invoke('invokeServer', 'arg1');
 				</section>
 
 				<section>
-					<h2>Async requests</h2>
+					<h2>Use Async for Long Running Tasks</h2>
+					<pre><code data-trim contenteditable style="font-size: 30px; margin-top: 60px; line-height:1.2;">
+public class UltimateAnswerHub : Hub{
+
+  public int ComputeUltimateAnswertoLifeTheUniverseAndEverything(){
+	return 42;
+  }
+}
+					</code></pre>
 				</section>
 
-
+	
 				<section>
 					<h2>Invoking client method outside of Hub</h2>
 					<pre><code data-trim contenteditable style="font-size: 30px; margin-top: 60px; line-height:1.2;">
-public class MyController : Controller
+public class MSMQListener 
 {
-  public ActionResult Submit(FormData data){
+  private void OnMessage(Message message){
 
   }
 }
 					</pre></code>
+					<aside class="notes">
+						<pre>
+GloblHost.ConnectionManager.GetHubContext&lt;MyHub&gt;();							
+						</pre>
+					</aside>
 				</section>
 			
 			</div>

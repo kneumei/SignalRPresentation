@@ -11,3 +11,10 @@ Web Sockets:
 -Client sends request asking if server can do ws.
 
 Sign
+
+
+
+Checklist for setting up demo
++ Edit iis config file
++ Open up windows firewall
++ Start up VS in admin mode
